@@ -6,25 +6,71 @@
         <button @click="openList" class="balance__btn">
           <font-awesome-icon icon="fa-solid fa-bars" size="3x"/>
         </button>
-        <div class="balance__text">Баланс 600 руб</div>
+        <div class="balance__text">Баланс {{ props.balance }} руб</div>
         <button @click="openList" class="balance__btn">
           <font-awesome-icon icon="fa-solid fa-bars" size="3x"/>
         </button>
       </div>
-      <div class="balance__list">
-        list
+      <div class="balance__list-wrapper">
+        <ul class="balance__list">
+          <li v-for="(item, i) in props.payList" :key="i" class="balance__list-category">
+            <div v-if="item.list.length > 0" class="balance__list-item-wrapper">
+              <div @click="openCat(item)" class="balance__list-cat-title">
+                <span>{{ item.name }}</span><span>{{ listCount(item) }}</span>
+              </div>
+              <ul v-if="item.isOpen" class="balance__list-category-ul">
+                <li v-for="(childItem, i) in item.list" :key="i" class="balance__list-item">
+                  <span>{{ childItem.amount }}</span>
+                  <span v-if="childItem.text">{{ childItem.text }}</span>
+                  <span>{{ childItem.date }}</span>
+                </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+
+        <ul class="balance__list">
+          <li v-for="(item, i) in props.costsList" :key="i" class="balance__list-category">
+            <div v-if="item.list.length > 0" class="balance__list-item-wrapper">
+              <div @click="openCat(item)" class="balance__list-cat-title">
+                <span>{{ item.name }}</span><span>{{ listCount(item) }}</span>
+              </div>
+              <ul v-if="item.isOpen" class="balance__list-category-ul">
+                <li v-for="(childItem, i) in item.list" :key="i" class="balance__list-item">
+                  <span>{{ childItem.amount }}</span>
+                  <span v-if="childItem.text">{{ childItem.text }}</span>
+                  <span>{{ childItem.date }}</span>
+                </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import {ref} from "vue";
+import {ref, defineProps} from "vue";
 
-const isOpenList = ref(false)
+const props = defineProps({
+  costsList: Object,
+  payList: Object,
+  balance: Number
+})
+
+const isOpenList = ref(true)
 
 function openList() {
   return isOpenList.value = !isOpenList.value
+}
+
+function openCat(cat) {
+  return cat.isOpen = !cat.isOpen
+}
+
+function listCount(item) {
+  return item.list.reduce((sum, current) => +sum + +current.amount, 0)
 }
 
 </script>
@@ -68,5 +114,34 @@ function openList() {
   border-radius: 2px;
   background: lightcoral;
   padding: 5px 20px;
+}
+
+.balance__list-wrapper {
+  padding: 10px 80px;
+}
+
+.balance__list {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+  margin: 0;
+}
+
+.balance__list-cat-title {
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.balance__list-category-ul {
+  padding-left: 20px;
+
+}
+
+.balance__list-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+  font-size: 16px;
 }
 </style>

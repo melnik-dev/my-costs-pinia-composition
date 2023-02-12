@@ -21,6 +21,7 @@ export default {
   justify-content: space-around;
   z-index: 11;
   background: #dbeafe;
+  padding-bottom: 20px;
 }
 
 .button__wrapper button {
