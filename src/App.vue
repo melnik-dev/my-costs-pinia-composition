@@ -1,6 +1,6 @@
 <template>
   <div class="container wrapper">
-    <div class="months">февраль</div>
+    <div class="months">{{ month.format(date) }}</div>
     <MyMoneyDiagram/>
     <MyMoneyBalance :balance="balance" :costs-list="store.costsList" :pay-list="store.payList"/>
     <MyMoneyButton/>
@@ -19,6 +19,11 @@ import { useMoneyStore } from "@/pinia/MoneyStore";
 import {onMounted, ref, isReactive, computed} from "vue";
 
 const store = useMoneyStore()
+
+let date = new Date();
+let optionMonth = {month: "long"}
+let month = new Intl.DateTimeFormat("ru", optionMonth);
+
 
 function listBalance(obj) {
   let sum = 0

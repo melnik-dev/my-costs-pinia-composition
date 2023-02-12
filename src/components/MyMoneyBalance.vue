@@ -59,7 +59,7 @@ const props = defineProps({
   balance: Number
 })
 
-const isOpenList = ref(true)
+const isOpenList = ref(false)
 
 function openList() {
   return isOpenList.value = !isOpenList.value
