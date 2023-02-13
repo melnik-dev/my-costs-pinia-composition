@@ -1,16 +1,28 @@
 <template>
   <div class="content">
-    <button v-for="(item,i) in moneyStore.category" :key="i">
-      <font-awesome-icon class="icon__color" :icon="['fa-solid', item.icon]" size="3x"/>
+    <div v-for="(cat,i) in store.category" :key="i">
+    <button @click="openNewCostsList(cat.name)">
+      <font-awesome-icon class="icon__color" :icon="['fa-solid', cat.icon]" size="3x"/>
     </button>
+    </div>
     <div class="diagram"></div>
   </div>
 </template>
 
 <script setup>
-import {useMoneyStore} from '@/pinia/MoneyStore'
+import {useMoneyStore} from "@/pinia/MoneyStore";
+import {defineEmits} from "vue";
 
-const moneyStore = useMoneyStore()
+const store = useMoneyStore()
+
+const emit = defineEmits({
+  openNewCostsList: null
+})
+
+function openNewCostsList(CatName) {
+  emit('openNewCostsList')
+  store.costsName = CatName
+}
 </script>
 
 <style scoped>

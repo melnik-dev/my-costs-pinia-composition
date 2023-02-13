@@ -1,8 +1,15 @@
 import { defineStore } from 'pinia'
 import {reactive, ref} from "vue";
 
+
+
 export const useMoneyStore = defineStore('moneyStore', () => {
-    const count = ref(0)
+    let date = new Date();
+    let optionMonth = {month: "long"}
+    let optionWeekDay = {day: "numeric", weekday: "long",}
+    let month = new Intl.DateTimeFormat("ru", optionMonth).format(date);
+    let weekDay = new Intl.DateTimeFormat("ru", optionWeekDay).format(date);
+
     const category = ref([
         {name: 'House', icon: 'fa-car-side'},
         {name: 'Clothes', icon: 'fa-shirt'},
@@ -65,12 +72,40 @@ export const useMoneyStore = defineStore('moneyStore', () => {
             list: []
         }
     })
+    const note = ref('')
+    const amount = ref('')
+    const costsName = ref('')
+
+
+
+    const addNewCoast = () => {
+        console.log('useMoneyStore')
+        console.log(costsName)
+        let property = {
+            id: costsList[costsName.value.toLowerCase()].list.length,
+            text: note.value,
+            amount: amount.value,
+            date: weekDay,
+        }
+        console.log(property)
+        for(let value in costsList) {
+            if(costsList[value].name == costsName.value) {
+                costsList[value].list.push(property)
+                console.log(costsList[value].list)
+            }
+        }
+    }
 
 
     return {
-        count,
+        month,
+        weekDay,
         category,
+        payList,
         costsList,
-        payList
+        note,
+        amount,
+        costsName,
+        addNewCoast
     }
 })

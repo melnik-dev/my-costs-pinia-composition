@@ -1,11 +1,13 @@
 <template>
   <div class="container wrapper">
-    <div class="months">{{ month.format(date) }}</div>
-    <MyMoneyDiagram/>
-    <MyMoneyBalance :balance="balance" :costs-list="store.costsList" :pay-list="store.payList"/>
+    <div class="months">{{ store.month }}</div>
+    <MyMoneyDiagram @openNewCostsList="openNewCostsList"/>
+    <MyMoneyBalance/>
     <MyMoneyButton/>
     <transition name="costs">
-      <MyMoneyAddListItem v-if="isCosts"/>
+      <MyMoneyAddListItem
+          v-if="isOpenNewCosts"
+          @cancelNewCostsList="cancelNewCostsList"/>
     </transition>
   </div>
 </template>
@@ -15,27 +17,20 @@ import MyMoneyDiagram from "@/components/MyMoneyDiagram.vue";
 import MyMoneyBalance from "@/components/MyMoneyBalance.vue";
 import MyMoneyButton from "@/components/MyMoneyButton.vue";
 import MyMoneyAddListItem from "@/components/MyMoneyAddListItem.vue";
-import { useMoneyStore } from "@/pinia/MoneyStore";
-import {onMounted, ref, isReactive, computed} from "vue";
+import {useMoneyStore} from "@/pinia/MoneyStore";
+import {ref} from "vue";
 
 const store = useMoneyStore()
 
-let date = new Date();
-let optionMonth = {month: "long"}
-let month = new Intl.DateTimeFormat("ru", optionMonth);
-
-
-function listBalance(obj) {
-  let sum = 0
-
-  for (let item in obj) {
-    sum += obj[item].list.reduce((sum, current) => +sum + +current.amount, 0)
-  }
-  return sum
+// диаграмма
+const isOpenNewCosts = ref(false)
+const openNewCostsList = () => {
+  return isOpenNewCosts.value = true
 }
-const balance = computed(()=> listBalance(store.payList) - listBalance(store.costsList))
-const isCosts = ref(false)
-onMounted(() => console.log( isReactive(store.payList ) ) )
+
+function cancelNewCostsList() {
+  return isOpenNewCosts.value = false
+}
 </script>
 
 <style>
@@ -48,6 +43,7 @@ onMounted(() => console.log( isReactive(store.payList ) ) )
   margin-top: 60px;
   font-size: 20px;
 }
+
 button {
   cursor: pointer;
   border: none;
@@ -55,6 +51,7 @@ button {
   font-size: inherit;
   color: inherit;
 }
+
 .costs-enter-active,
 .costs-leave-active {
   transition: transform 1s ease;

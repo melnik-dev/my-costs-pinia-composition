@@ -1,26 +1,50 @@
 <template>
-<div class="add-costs__wrapper">
-  <div class="add-costs__months">Пятница, 10 февраля</div>
-  <div class="add-costs__count">
-    <input v-model="count" type="text">
+  <div class="add-costs__wrapper">
+    <div @click="cancelNewCostsList" class="add-costs__cansel">Отмена</div>
+    <div class="add-costs__months">Пятница, 10 февраля</div>
+    <div class="add-costs__count">
+      <input v-model="store.amount" type="text" placeholder="0">
+    </div>
+    <div class="add-costs__note">
+      <input v-model="store.note" type="text" placeholder="добаить заметку">
+    </div>
+    <div class="add-costs__btn-wrapper">
+      <div v-for="(btn, i) in buttonArr"
+           :key="i">
+        <button class="add-costs__btn" @click="addAmount(btn)">{{ btn }}</button>
+      </div>
+
+      <button class="add-costs__btn add-costs__btn-cat">Добавить категорию</button>
+      <button @click="addNewCoast" class="add-costs__btn add-costs__btn-cat">Добавить {{ store.costsName }}</button>
+    </div>
   </div>
-  <div class="add-costs__note">
-    <input v-model="note" type="text" placeholder="добаить заметку">
-  </div>
-  <div class="add-costs__btn-wrapper">
-    <button class="add-costs__btn" v-for="(btn, i) in buttonArr" :key="i">{{ btn }}</button>
-    <button class="add-costs__btn add-costs__btn-cat" >Добавить категорию</button>
-  </div>
-</div>
 </template>
 
 <script setup>
-import {ref} from "vue";
+import {useMoneyStore} from "@/pinia/MoneyStore";
+import {ref, defineEmits} from "vue";
 
-const count = ref('0')
-const note = ref('')
+const store = useMoneyStore()
+
+const emit = defineEmits({
+  cancelNewCostsList: null,
+})
+
 const buttonArr = ref(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'])
 
+function cancelNewCostsList() {
+  emit('cancelNewCostsList')
+  store.costsName = ''
+}
+
+function addNewCoast() {
+  store.addNewCoast()
+  cancelNewCostsList()
+}
+
+function addAmount(n) {
+  return store.amount += n
+}
 </script>
 
 <style scoped>
@@ -33,7 +57,10 @@ const buttonArr = ref(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'])
   background: #dbeafe;
   z-index: 20;
   padding: 20px;
-  transition: left 1s ease;
+}
+
+.add-costs__cansel {
+  cursor: pointer;
 }
 
 .add-costs__months {
@@ -41,7 +68,7 @@ const buttonArr = ref(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'])
   margin-bottom: 30px;
 }
 
-.add-costs__count input{
+.add-costs__count input {
   width: 50%;
   padding: 15px;
   text-align: right;
@@ -50,7 +77,8 @@ const buttonArr = ref(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'])
   border-radius: 4px;
   margin-bottom: 30px;
 }
-.add-costs__note input{
+
+.add-costs__note input {
   width: 50%;
   padding: 5px;
   margin-bottom: 30px;
@@ -58,6 +86,7 @@ const buttonArr = ref(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'])
   border: none;
   border-bottom: 1px solid grey;
 }
+
 .add-costs__btn-wrapper {
   display: flex;
   flex-wrap: wrap;
@@ -65,6 +94,7 @@ const buttonArr = ref(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'])
   justify-content: center;
 
 }
+
 .add-costs__btn {
   background: white;
   border-radius: 4px;
@@ -72,6 +102,7 @@ const buttonArr = ref(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'])
   padding: 30px;
   font-size: 30px;
 }
+
 .add-costs__btn-cat {
   font-size: 25px;
   width: 86%;
