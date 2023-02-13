@@ -30,16 +30,16 @@ export const useMoneyStore = defineStore('moneyStore', () => {
             isOpen: false,
             isAdd: true,
             list: [
-                {id: '1', text: '1', amount: '1100', date: '8.02.2020'},
-                {id: '2',text: '1', amount: '100', date: '8.02.2020'}]
+                {id: '0', text: '1', amount: '1100', date: '8.02.2020'},
+                {id: '1',text: '1', amount: '100', date: '8.02.2020'}]
         },
         deposit: {
             name: 'Deposit',
             isOpen: false,
             isAdd: true,
             list: [
-                {id: '1', text: '1', amount: '100', date: '8.02.2020'},
-                {id: '2',text: '1', amount: '100', date: '8.02.2020'}]
+                {id: '0', text: '1', amount: '100', date: '8.02.2020'},
+                {id: '1',text: '1', amount: '100', date: '8.02.2020'}]
         },
         economy: {
             name: 'Economy',
@@ -54,16 +54,16 @@ export const useMoneyStore = defineStore('moneyStore', () => {
             isOpen: false,
             isAdd: false,
             list: [
-                {id: '1', text: '1', amount: '100', date: '8.02.2020'},
-                {id: '2',text: '1', amount: '100', date: '8.02.2020'}]
+                {id: '0', text: '1', amount: '100', date: '8.02.2020'},
+                {id: '1',text: '1', amount: '100', date: '8.02.2020'}]
         },
         gifts: {
             name: 'Gifts',
             isOpen: false,
             isAdd: false,
             list: [
-                {id: '1', text: '1', amount: '100', date: '8.02.2020'},
-                {id: '2',text: '1', amount: '100', date: '8.02.2020'}]
+                {id: '0', text: '1', amount: '100', date: '8.02.2020'},
+                {id: '1',text: '1', amount: '100', date: '8.02.2020'}]
         },
         shop: {
             name: 'Shop',
@@ -79,23 +79,32 @@ export const useMoneyStore = defineStore('moneyStore', () => {
 
 
     const addNewCoast = () => {
-        console.log('useMoneyStore')
-        console.log(costsName)
         let property = {
             id: costsList[costsName.value.toLowerCase()].list.length,
             text: note.value,
             amount: amount.value,
             date: weekDay,
         }
-        console.log(property)
+
         for(let value in costsList) {
             if(costsList[value].name == costsName.value) {
                 costsList[value].list.push(property)
-                console.log(costsList[value].list)
             }
         }
     }
 
+    const deleteCosts = (id, name) => {
+        console.log(id)
+        console.log(name)
+        for(let value in costsList) {
+            if(costsList[value].name == name) {
+                costsList[value].list = costsList[value].list.filter((item) => {
+                    return item.id !== id
+                })
+            }
+        }
+
+    }
 
     return {
         month,
@@ -106,6 +115,7 @@ export const useMoneyStore = defineStore('moneyStore', () => {
         note,
         amount,
         costsName,
-        addNewCoast
+        addNewCoast,
+        deleteCosts
     }
 })

@@ -23,6 +23,7 @@
                   <span>{{ childItem.amount }}</span>
                   <span v-if="childItem.text">{{ childItem.text }}</span>
                   <span>{{ childItem.date }}</span>
+                  <button @click="deleteCosts(childItem.id, item.name)"><font-awesome-icon icon="fa-solid fa-trash" /></button>
                 </li>
               </ul>
             </div>
@@ -40,6 +41,7 @@
                   <span>{{ childItem.amount }}</span>
                   <span v-if="childItem.text">{{ childItem.text }}</span>
                   <span>{{ childItem.date }}</span>
+                  <button @click="deleteCosts(childItem.id, item.name)"><font-awesome-icon icon="fa-solid fa-trash" /></button>
                 </li>
               </ul>
             </div>
@@ -81,6 +83,9 @@ function listCount(item) {
   return item.list.reduce((sum, current) => +sum + +current.amount, 0)
 }
 
+function deleteCosts(id, name) {
+store.deleteCosts(id, name)
+}
 </script>
 
 <style scoped>
