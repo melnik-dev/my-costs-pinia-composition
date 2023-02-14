@@ -1,6 +1,6 @@
 <template>
   <div class="button__wrapper">
-    <button>
+    <button @click="minus">
       <font-awesome-icon icon="fa-solid fa-minus" size="4x"/>
     </button>
     <button>
@@ -9,9 +9,15 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "MyMoneyButton"
+<script setup>
+import {defineEmits} from "vue";
+
+const emit = defineEmits({
+  minus: null
+})
+
+function minus() {
+  emit('minus')
 }
 </script>
 

@@ -2,7 +2,6 @@
   <div class="balance__wrapper">
     <div :class="['balance', {'balance--open': isOpenList}]">
       <div class="balance__header">
-
         <button @click="openList" class="balance__btn">
           <font-awesome-icon icon="fa-solid fa-bars" size="3x"/>
         </button>
@@ -11,80 +10,46 @@
           <font-awesome-icon icon="fa-solid fa-bars" size="3x"/>
         </button>
       </div>
-      <div class="balance__list-wrapper">
-        <ul class="balance__list">
-          <li v-for="(item, i) in store.payList" :key="i" class="balance__list-category">
-            <div v-if="item.list.length > 0" class="balance__list-item-wrapper">
-              <div @click="openCat(item)" class="balance__list-cat-title">
-                <span>{{ item.name }}</span><span>{{ listCount(item) }}</span>
-              </div>
-              <ul v-if="item.isOpen" class="balance__list-category-ul">
-                <li v-for="(childItem, i) in item.list" :key="i" class="balance__list-item">
-                  <span>{{ childItem.amount }}</span>
-                  <span v-if="childItem.text">{{ childItem.text }}</span>
-                  <span>{{ childItem.date }}</span>
-                  <button @click="deleteCosts(childItem.id, item.name)"><font-awesome-icon icon="fa-solid fa-trash" /></button>
-                </li>
-              </ul>
-            </div>
-          </li>
-        </ul>
 
-        <ul class="balance__list">
-          <li v-for="(item, i) in store.costsList" :key="i" class="balance__list-category">
-            <div v-if="item.list.length > 0" class="balance__list-item-wrapper">
-              <div @click="openCat(item)" class="balance__list-cat-title">
-                <span>{{ item.name }}</span><span>{{ listCount(item) }}</span>
-              </div>
-              <ul v-if="item.isOpen" class="balance__list-category-ul">
-                <li v-for="(childItem, i) in item.list" :key="i" class="balance__list-item">
-                  <span>{{ childItem.amount }}</span>
-                  <span v-if="childItem.text">{{ childItem.text }}</span>
-                  <span>{{ childItem.date }}</span>
-                  <button @click="deleteCosts(childItem.id, item.name)"><font-awesome-icon icon="fa-solid fa-trash" /></button>
-                </li>
-              </ul>
-            </div>
-          </li>
-        </ul>
+      <div class="balance__list-wrapper">
+        <MyMoneyBalanceList @deleteCosts="deleteCosts" :list="payItemList"/>
+        <MyMoneyBalanceList @deleteCosts="deleteCosts" :list="costsItemList"/>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import MyMoneyBalanceList from "@/components/MyMoneyBalanceList.vue";
 import {useMoneyStore} from "@/pinia/MoneyStore";
 import {ref, computed} from "vue";
 
 const store = useMoneyStore()
 
-function listBalance(obj) {
+const payItemList = computed(() => store.costsList.filter(item => {
+  return item.isPayLis === true
+}))
+const costsItemList = computed(() => store.costsList.filter(item => {
+  return item.isPayLis === false
+}))
+function listBalance(is){
   let sum = 0
-
-  for (let item in obj) {
-    sum += obj[item].list.reduce((sum, current) => +sum + +current.amount, 0)
-  }
+  store.costsList.forEach( elem => {
+    if (elem.isPayLis === is) {
+      sum += elem.list.reduce((sum, current) => +sum + +current.amount, 0)
+    }
+  })
   return sum
 }
-
-const balance = computed(() => listBalance(store.payList) - listBalance(store.costsList))
-
+const balance = computed(() => listBalance(true) - listBalance(false))
 const isOpenList = ref(false)
 
 function openList() {
   return isOpenList.value = !isOpenList.value
 }
 
-function openCat(cat) {
-  return cat.isOpen = !cat.isOpen
-}
-
-function listCount(item) {
-  return item.list.reduce((sum, current) => +sum + +current.amount, 0)
-}
-
 function deleteCosts(id, name) {
-store.deleteCosts(id, name)
+  store.deleteCosts(id, name)
 }
 </script>
 
@@ -131,30 +96,5 @@ store.deleteCosts(id, name)
 
 .balance__list-wrapper {
   padding: 10px 80px;
-}
-
-.balance__list {
-  list-style: none;
-  padding: 0;
-  text-align: left;
-  margin: 0;
-}
-
-.balance__list-cat-title {
-  display: flex;
-  justify-content: space-between;
-  cursor: pointer;
-}
-
-.balance__list-category-ul {
-  padding-left: 20px;
-
-}
-
-.balance__list-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 5px;
-  font-size: 16px;
 }
 </style>

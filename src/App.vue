@@ -3,11 +3,12 @@
     <div class="months">{{ store.month }}</div>
     <MyMoneyDiagram @openNewCostsList="openNewCostsList"/>
     <MyMoneyBalance/>
-    <MyMoneyButton/>
+    <MyMoneyButton @minus="minus"/>
     <transition name="costs">
       <MyMoneyAddListItem
           v-if="isOpenNewCosts"
-          @cancelNewCostsList="cancelNewCostsList"/>
+          @cancelNewCostsList="cancelNewCostsList"
+          :is-choose-category="isChooseCategory"/>
     </transition>
   </div>
 </template>
@@ -22,14 +23,24 @@ import {ref} from "vue";
 
 const store = useMoneyStore()
 
-// диаграмма
 const isOpenNewCosts = ref(false)
+const isChooseCategory = ref(false)
+
 const openNewCostsList = () => {
-  return isOpenNewCosts.value = true
+  isChooseCategory.value = true
+  isOpenNewCosts.value = true
 }
 
 function cancelNewCostsList() {
-  return isOpenNewCosts.value = false
+  isChooseCategory.value = false
+  isOpenNewCosts.value = false
+  store.cleare()
+}
+
+
+function minus() {
+  isChooseCategory.value = false
+  isOpenNewCosts.value = true
 }
 </script>
 

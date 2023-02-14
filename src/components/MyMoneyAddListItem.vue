@@ -9,32 +9,45 @@
       <input v-model="store.note" type="text" placeholder="добаить заметку">
     </div>
     <div class="add-costs__btn-wrapper">
-      <div v-for="(btn, i) in buttonArr"
-           :key="i">
-        <button class="add-costs__btn" @click="addAmount(btn)">{{ btn }}</button>
-      </div>
+      <MyMoneyBtnCategory v-if="false" @addAmount="addAmount" :category="store.payList"/>
+      <MyMoneyBtnCategory v-if="false" @addAmount="addAmount" :category="store.costsList"/>
 
-      <button class="add-costs__btn add-costs__btn-cat">Добавить категорию</button>
-      <button @click="addNewCoast" class="add-costs__btn add-costs__btn-cat">Добавить {{ store.costsName }}</button>
+      <div style="display: contents" v-if="isNumberBtn">
+        <div v-for="(btn, i) in buttonArr"
+             :key="i">
+          <button class="add-costs__btn" @click="addAmount(btn)">{{ btn }}</button>
+        </div>
+
+        <button v-if="props.isChooseCategory" @click="addNewCoast" class="add-costs__btn add-costs__btn-cat">
+          Добавить {{ store.costsName }}
+        </button>
+        <button v-else @click="chooseCategory" class="add-costs__btn add-costs__btn-cat">Выбрать
+          категорию
+        </button>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import MyMoneyBtnCategory from "@/components/MyMoneyBtnCategory.vue";
 import {useMoneyStore} from "@/pinia/MoneyStore";
-import {ref, defineEmits} from "vue";
+import {ref, defineEmits, defineProps} from "vue";
 
-const store = useMoneyStore()
-
+const props = defineProps({
+  isChooseCategory: Boolean
+})
 const emit = defineEmits({
   cancelNewCostsList: null,
 })
-
+const store = useMoneyStore()
 const buttonArr = ref(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'])
+const isNumberBtn = ref(true)
 
 function cancelNewCostsList() {
   emit('cancelNewCostsList')
   store.costsName = ''
+  isNumberBtn.value = true
 }
 
 function addNewCoast() {
@@ -44,6 +57,12 @@ function addNewCoast() {
 
 function addAmount(n) {
   return store.amount += n
+}
+
+
+function chooseCategory() {
+  isNumberBtn.value = false
+
 }
 </script>
 

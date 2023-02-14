@@ -20,7 +20,10 @@ import {
     faBath,
     faDumbbell,
     faFileInvoiceDollar,
-    faTrash
+    faTrash,
+    faSackDollar,
+    faCreditCard,
+    faMoneyBillTransfer
 } from '@fortawesome/free-solid-svg-icons'
 /* add icons to the library */
 library.add([
@@ -38,7 +41,10 @@ library.add([
     faBath,
     faDumbbell,
     faFileInvoiceDollar,
-    faTrash
+    faTrash,
+    faSackDollar,
+    faCreditCard,
+    faMoneyBillTransfer
 ])
 
 const pinia = createPinia();

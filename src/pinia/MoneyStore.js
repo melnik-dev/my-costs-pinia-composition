@@ -1,6 +1,5 @@
-import { defineStore } from 'pinia'
+import {defineStore} from 'pinia'
 import {reactive, ref} from "vue";
-
 
 
 export const useMoneyStore = defineStore('moneyStore', () => {
@@ -24,98 +23,78 @@ export const useMoneyStore = defineStore('moneyStore', () => {
         {name: 'Sport', icon: 'fa-dumbbell'},
         {name: 'Invoice', icon: 'fa-file-invoice-dollar'},
     ])
-    const payList = reactive({
-        pay: {
-            name: 'Pay',
-            isOpen: false,
-            isAdd: true,
-            list: [
+    const costsList = reactive([
+        {name: 'Pay', isPayLis: true, icon: 'fa-credit-card', isOpen: false, list: [
                 {id: '0', text: '1', amount: '1100', date: '8.02.2020'},
-                {id: '1',text: '1', amount: '100', date: '8.02.2020'}]
-        },
-        deposit: {
-            name: 'Deposit',
-            isOpen: false,
-            isAdd: true,
-            list: [
+                {id: '1', text: '1', amount: '100', date: '8.02.2020'}]},
+        {name: 'Deposit', isPayLis: true, icon: 'fa-money-bill-transfer', isOpen: false, list: [
                 {id: '0', text: '1', amount: '100', date: '8.02.2020'},
-                {id: '1',text: '1', amount: '100', date: '8.02.2020'}]
-        },
-        economy: {
-            name: 'Economy',
-            isOpen: false,
-            isAdd: true,
-            list: []
-        }
-    })
-    const costsList = reactive({
-        peet: {
-            name: 'Peet',
-            isOpen: false,
-            isAdd: false,
-            list: [
+                {id: '1', text: '1', amount: '100', date: '8.02.2020'}]},
+        {name: 'Economy', isPayLis: true, icon: 'fa-sack-dollar', isOpen: false, list: []},
+        {name: 'House', isPayLis: false, icon: 'fa-car-side', isOpen: false, list: []},
+        {name: 'Clothes', isPayLis: false, icon: 'fa-shirt', isOpen: false, list: []},
+        {name: 'Entertainment', isPayLis: false, icon: 'fa-martini-glass-citrus', isOpen: false, list: []},
+        {name: 'Shop', isPayLis: false, icon: 'fa-basket-shopping', isOpen: false, list: []},
+        {name: 'Gifts', isPayLis: false, icon: 'fa-gift', isOpen: false, list: [
                 {id: '0', text: '1', amount: '100', date: '8.02.2020'},
-                {id: '1',text: '1', amount: '100', date: '8.02.2020'}]
-        },
-        gifts: {
-            name: 'Gifts',
-            isOpen: false,
-            isAdd: false,
-            list: [
+                {id: '1', text: '1', amount: '100', date: '8.02.2020'}]},
+        {name: 'Health', isPayLis: false, icon: 'fa-stethoscope', isOpen: false, list: []},
+        {name: 'Peet', isPayLis: false, icon: 'fa-cat', isOpen: false, list: [
                 {id: '0', text: '1', amount: '100', date: '8.02.2020'},
-                {id: '1',text: '1', amount: '100', date: '8.02.2020'}]
-        },
-        shop: {
-            name: 'Shop',
-            isOpen: false,
-            isAdd: false,
-            list: []
-        }
-    })
+                {id: '1', text: '1', amount: '100', date: '8.02.2020'}]},
+        {name: 'Car', isPayLis: false, icon: 'fa-car-side', isOpen: false, list: []},
+        {name: 'Transport', isPayLis: false, icon: 'fa-train-subway', isOpen: false, list: []},
+        {name: 'Toiletry', isPayLis: false, icon: 'fa-bath', isOpen: false, list: []},
+        {name: 'Sport', isPayLis: false, icon: 'fa-dumbbell', isOpen: false, list: []},
+        {name: 'Invoice', isPayLis: false, icon: 'fa-file-invoice-dollar', isOpen: false, list: []}
+    ])
     const note = ref('')
     const amount = ref('')
     const costsName = ref('')
 
 
-
+    const cleare = () => {
+        note.value = ''
+        amount.value = ''
+        costsName.value = ''
+    }
     const addNewCoast = () => {
+        let i = costsList.findIndex(el => el.name === costsName.value)
         let property = {
-            id: costsList[costsName.value.toLowerCase()].list.length,
+            id: costsList[i].list.length,
             text: note.value,
             amount: amount.value,
             date: weekDay,
         }
 
-        for(let value in costsList) {
-            if(costsList[value].name == costsName.value) {
+        for (let value in costsList) {
+            if (costsList[value].name === costsName.value) {
                 costsList[value].list.push(property)
             }
         }
+        cleare()
     }
 
     const deleteCosts = (id, name) => {
-        console.log(id)
-        console.log(name)
-        for(let value in costsList) {
-            if(costsList[value].name == name) {
+        for (let value in costsList) {
+            if (costsList[value].name === name) {
                 costsList[value].list = costsList[value].list.filter((item) => {
                     return item.id !== id
                 })
             }
         }
-
     }
 
     return {
         month,
         weekDay,
         category,
-        payList,
         costsList,
         note,
         amount,
         costsName,
         addNewCoast,
-        deleteCosts
+        deleteCosts,
+        cleare
     }
 })
