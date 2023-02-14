@@ -1,9 +1,9 @@
 <template>
   <div class="button__wrapper">
-    <button @click="minus">
+    <button @click="onMinus">
       <font-awesome-icon icon="fa-solid fa-minus" size="4x"/>
     </button>
-    <button>
+    <button @click="onPlus">
       <font-awesome-icon icon="fa-solid fa-plus" size="4x"/>
     </button>
   </div>
@@ -13,11 +13,15 @@
 import {defineEmits} from "vue";
 
 const emit = defineEmits({
-  minus: null
+  onMinus: null,
+  onPlus: null
 })
 
-function minus() {
-  emit('minus')
+function onMinus() {
+  emit('onMinus')
+}
+function onPlus() {
+  emit('onPlus')
 }
 </script>
 

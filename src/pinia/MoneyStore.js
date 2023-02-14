@@ -9,7 +9,12 @@ export const useMoneyStore = defineStore('moneyStore', () => {
     let month = new Intl.DateTimeFormat("ru", optionMonth).format(date);
     let weekDay = new Intl.DateTimeFormat("ru", optionWeekDay).format(date);
 
-    const category = ref([
+    const payCategory = ref([
+        {name: 'Pay', icon: 'fa-credit-card', },
+        {name: 'Deposit', icon: 'fa-money-bill-transfer', },
+        {name: 'Economy', icon: 'fa-sack-dollar', }
+    ])
+    const costsCategory = ref([
         {name: 'House', icon: 'fa-car-side'},
         {name: 'Clothes', icon: 'fa-shirt'},
         {name: 'Entertainment', icon: 'fa-martini-glass-citrus'},
@@ -23,30 +28,31 @@ export const useMoneyStore = defineStore('moneyStore', () => {
         {name: 'Sport', icon: 'fa-dumbbell'},
         {name: 'Invoice', icon: 'fa-file-invoice-dollar'},
     ])
+
     const costsList = reactive([
-        {name: 'Pay', isPayLis: true, icon: 'fa-credit-card', isOpen: false, list: [
+        {name: 'Pay', isPayLis: true, isOpen: false, list: [
                 {id: '0', text: '1', amount: '1100', date: '8.02.2020'},
                 {id: '1', text: '1', amount: '100', date: '8.02.2020'}]},
-        {name: 'Deposit', isPayLis: true, icon: 'fa-money-bill-transfer', isOpen: false, list: [
+        {name: 'Deposit', isPayLis: true, isOpen: false, list: [
                 {id: '0', text: '1', amount: '100', date: '8.02.2020'},
                 {id: '1', text: '1', amount: '100', date: '8.02.2020'}]},
-        {name: 'Economy', isPayLis: true, icon: 'fa-sack-dollar', isOpen: false, list: []},
-        {name: 'House', isPayLis: false, icon: 'fa-car-side', isOpen: false, list: []},
-        {name: 'Clothes', isPayLis: false, icon: 'fa-shirt', isOpen: false, list: []},
-        {name: 'Entertainment', isPayLis: false, icon: 'fa-martini-glass-citrus', isOpen: false, list: []},
-        {name: 'Shop', isPayLis: false, icon: 'fa-basket-shopping', isOpen: false, list: []},
-        {name: 'Gifts', isPayLis: false, icon: 'fa-gift', isOpen: false, list: [
+        {name: 'Economy', isPayLis: true, isOpen: false, list: []},
+        {name: 'House', isPayLis: false, isOpen: false, list: []},
+        {name: 'Clothes', isPayLis: false, isOpen: false, list: []},
+        {name: 'Entertainment', isPayLis: false, isOpen: false, list: []},
+        {name: 'Shop', isPayLis: false, isOpen: false, list: []},
+        {name: 'Gifts', isPayLis: false, isOpen: false, list: [
                 {id: '0', text: '1', amount: '100', date: '8.02.2020'},
                 {id: '1', text: '1', amount: '100', date: '8.02.2020'}]},
-        {name: 'Health', isPayLis: false, icon: 'fa-stethoscope', isOpen: false, list: []},
-        {name: 'Peet', isPayLis: false, icon: 'fa-cat', isOpen: false, list: [
+        {name: 'Health', isPayLis: false, isOpen: false, list: []},
+        {name: 'Peet', isPayLis: false, isOpen: false, list: [
                 {id: '0', text: '1', amount: '100', date: '8.02.2020'},
                 {id: '1', text: '1', amount: '100', date: '8.02.2020'}]},
-        {name: 'Car', isPayLis: false, icon: 'fa-car-side', isOpen: false, list: []},
-        {name: 'Transport', isPayLis: false, icon: 'fa-train-subway', isOpen: false, list: []},
-        {name: 'Toiletry', isPayLis: false, icon: 'fa-bath', isOpen: false, list: []},
-        {name: 'Sport', isPayLis: false, icon: 'fa-dumbbell', isOpen: false, list: []},
-        {name: 'Invoice', isPayLis: false, icon: 'fa-file-invoice-dollar', isOpen: false, list: []}
+        {name: 'Car', isPayLis: false, isOpen: false, list: []},
+        {name: 'Transport', isPayLis: false, isOpen: false, list: []},
+        {name: 'Toiletry', isPayLis: false, isOpen: false, list: []},
+        {name: 'Sport', isPayLis: false, isOpen: false, list: []},
+        {name: 'Invoice', isPayLis: false, isOpen: false, list: []}
     ])
     const note = ref('')
     const amount = ref('')
@@ -72,7 +78,6 @@ export const useMoneyStore = defineStore('moneyStore', () => {
                 costsList[value].list.push(property)
             }
         }
-        cleare()
     }
 
     const deleteCosts = (id, name) => {
@@ -88,7 +93,8 @@ export const useMoneyStore = defineStore('moneyStore', () => {
     return {
         month,
         weekDay,
-        category,
+        payCategory,
+        costsCategory,
         costsList,
         note,
         amount,

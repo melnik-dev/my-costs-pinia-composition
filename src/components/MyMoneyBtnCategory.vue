@@ -14,16 +14,16 @@ import {defineProps, defineEmits} from "vue";
 
 const store = useMoneyStore()
 const props = defineProps({
-  category: [Array, Object]
+  category: Array
 })
 
 const emit = defineEmits({
-  addAmount: null
+  addNewCoast: null
 })
 
 function addNewCoast(title) {
   store.costsName = title
-  emit('addAmount')
+  emit('addNewCoast')
 }
 </script>
 

@@ -9,8 +9,7 @@
       <input v-model="store.note" type="text" placeholder="добаить заметку">
     </div>
     <div class="add-costs__btn-wrapper">
-      <MyMoneyBtnCategory v-if="false" @addAmount="addAmount" :category="store.payList"/>
-      <MyMoneyBtnCategory v-if="false" @addAmount="addAmount" :category="store.costsList"/>
+      <MyMoneyBtnCategory v-if="isCostaBtn" @addNewCoast="addNewCoast" :category="activeComponent"/>
 
       <div style="display: contents" v-if="isNumberBtn">
         <div v-for="(btn, i) in buttonArr"
@@ -32,10 +31,11 @@
 <script setup>
 import MyMoneyBtnCategory from "@/components/MyMoneyBtnCategory.vue";
 import {useMoneyStore} from "@/pinia/MoneyStore";
-import {ref, defineEmits, defineProps} from "vue";
+import {ref, defineEmits, defineProps, computed} from "vue";
 
 const props = defineProps({
-  isChooseCategory: Boolean
+  isChooseCategory: Boolean,
+  isPlus: Boolean
 })
 const emit = defineEmits({
   cancelNewCostsList: null,
@@ -43,26 +43,29 @@ const emit = defineEmits({
 const store = useMoneyStore()
 const buttonArr = ref(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'])
 const isNumberBtn = ref(true)
-
+const isCostaBtn = ref(false)
 function cancelNewCostsList() {
   emit('cancelNewCostsList')
-  store.costsName = ''
   isNumberBtn.value = true
 }
 
 function addNewCoast() {
   store.addNewCoast()
   cancelNewCostsList()
+  isCostaBtn.value = false
 }
 
 function addAmount(n) {
   return store.amount += n
 }
 
+const activeComponent = computed(() => {
+  return props.isPlus ? store.payCategory : store.costsCategory
+})
 
 function chooseCategory() {
   isNumberBtn.value = false
-
+  isCostaBtn.value = true
 }
 </script>
 
