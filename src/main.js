@@ -2,6 +2,7 @@ import {createApp} from 'vue'
 import {createPinia} from 'pinia'
 import App from './App.vue'
 
+import './vars.css'
 /* import the fontawesome core */
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
@@ -10,6 +11,7 @@ import {
     faPlus,
     faBars,
     faCarSide,
+    faHouse,
     faShirt,
     faMartiniGlassCitrus,
     faBasketShopping,
@@ -30,6 +32,7 @@ library.add([
     faMinus,
     faPlus,
     faCarSide,
+    faHouse,
     faBars,
     faShirt,
     faMartiniGlassCitrus,

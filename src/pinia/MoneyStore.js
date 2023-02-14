@@ -10,23 +10,23 @@ export const useMoneyStore = defineStore('moneyStore', () => {
     let weekDay = new Intl.DateTimeFormat("ru", optionWeekDay).format(date);
 
     const payCategory = ref([
-        {name: 'Pay', icon: 'fa-credit-card', },
-        {name: 'Deposit', icon: 'fa-money-bill-transfer', },
-        {name: 'Economy', icon: 'fa-sack-dollar', }
+        {name: 'Pay', icon: 'fa-credit-card', color: '#22c55e'},
+        {name: 'Deposit', icon: 'fa-money-bill-transfer', color: '#22c55e'},
+        {name: 'Economy', icon: 'fa-sack-dollar', color: '#22c55e'}
     ])
     const costsCategory = ref([
-        {name: 'House', icon: 'fa-car-side'},
-        {name: 'Clothes', icon: 'fa-shirt'},
-        {name: 'Entertainment', icon: 'fa-martini-glass-citrus'},
-        {name: 'Shop', icon: 'fa-basket-shopping'},
-        {name: 'Gifts', icon: 'fa-gift'},
-        {name: 'Health', icon: 'fa-stethoscope'},
-        {name: 'Peet', icon: 'fa-cat'},
-        {name: 'Car', icon: 'fa-car-side'},
-        {name: 'Transport', icon: 'fa-train-subway'},
-        {name: 'Toiletry', icon: 'fa-bath'},
-        {name: 'Sport', icon: 'fa-dumbbell'},
-        {name: 'Invoice', icon: 'fa-file-invoice-dollar'},
+        {name: 'House', icon: 'fa-house', color: '#f87171'},
+        {name: 'Clothes', icon: 'fa-shirt', color: '#fb923c'},
+        {name: 'Entertainment', icon: 'fa-martini-glass-citrus', color: '#facc15'},
+        {name: 'Shop', icon: 'fa-basket-shopping', color: '#a3e635'},
+        {name: 'Gifts', icon: 'fa-gift', color: '#818cf8'},
+        {name: 'Health', icon: 'fa-stethoscope', color: '#22d3ee'},
+        {name: 'Peet', icon: 'fa-cat', color: '#38bdf8'},
+        {name: 'Car', icon: 'fa-car-side', color: '#34d399'},
+        {name: 'Transport', icon: 'fa-train-subway', color: '#e11d48'},
+        {name: 'Toiletry', icon: 'fa-bath', color: '#f472b6'},
+        {name: 'Sport', icon: 'fa-dumbbell', color: '#60a5fa'},
+        {name: 'Invoice', icon: 'fa-file-invoice-dollar', color: '#f59e0b'},
     ])
 
     const costsList = reactive([

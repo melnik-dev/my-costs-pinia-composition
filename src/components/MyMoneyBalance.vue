@@ -5,7 +5,8 @@
         <button @click="openList" class="balance__btn">
           <font-awesome-icon icon="fa-solid fa-bars" size="3x"/>
         </button>
-        <div class="balance__text">Баланс {{ balance }} руб</div>
+        <div :class="{ 'bg__light-red' : balance < 0 }"
+            class="balance__text">Баланс {{ balance }} руб</div>
         <button @click="openList" class="balance__btn">
           <font-awesome-icon icon="fa-solid fa-bars" size="3x"/>
         </button>
@@ -64,7 +65,7 @@ function deleteCosts(id, name) {
   right: 0;
   top: 500px;
   height: 100%;
-  background: #dbeafe;
+  background: var(--bg-color);
   z-index: 10;
   transition: top 1s ease;
 }
@@ -82,18 +83,20 @@ function deleteCosts(id, name) {
 
 .balance__btn {
   background: transparent;
-  color: yellowgreen;
+  color: var(--btn-green);
   border: none;
 }
 
 .balance__text {
   display: flex;
   align-items: center;
-  border-radius: 2px;
-  background: lightcoral;
+  border-radius: 4px;
+  background: var(--light-green);
   padding: 5px 20px;
 }
-
+.bg__light-red {
+  background: var(--light-red);
+}
 .balance__list-wrapper {
   padding: 10px 80px;
 }

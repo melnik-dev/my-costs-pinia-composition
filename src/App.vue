@@ -96,7 +96,7 @@ button {
   padding: 20px;
   padding-bottom: 0;
   border-radius: 6px;
-  background: #dbeafe;
+  background: var(--bg-color);
   position: relative;
 }
 

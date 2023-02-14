@@ -2,7 +2,10 @@
   <div class="content">
     <div v-for="(cat,i) in store.costsCategory" :key="i">
     <button @click="openNewCostsList(cat.name)">
-      <font-awesome-icon class="icon__color" :icon="['fa-solid', cat.icon]" size="3x"/>
+      <font-awesome-icon
+          :style="{ color: cat.color }"
+          class="icon__color"
+          :icon="['fa-solid', cat.icon]" size="3x"/>
     </button>
     </div>
     <div class="diagram"></div>

@@ -3,7 +3,9 @@
     <div @click="cancelNewCostsList" class="add-costs__cansel">Отмена</div>
     <div class="add-costs__months">Пятница, 10 февраля</div>
     <div class="add-costs__count">
-      <input v-model="store.amount" type="text" placeholder="0">
+      <input :class="{ 'input__light-green' : isPlus }"
+             class="add-costs__input-count"
+          v-model="store.amount" type="text" placeholder="0">
     </div>
     <div class="add-costs__note">
       <input v-model="store.note" type="text" placeholder="добаить заметку">
@@ -76,7 +78,7 @@ function chooseCategory() {
   top: 0;
   right: 0;
   bottom: 0;
-  background: #dbeafe;
+  background: var(--bg-color);
   z-index: 20;
   padding: 20px;
 }
@@ -90,16 +92,18 @@ function chooseCategory() {
   margin-bottom: 30px;
 }
 
-.add-costs__count input {
+.add-costs__input-count {
   width: 50%;
   padding: 15px;
   text-align: right;
   font-size: 30px;
-  background: mistyrose;
+  background: var(--light-red);
   border-radius: 4px;
   margin-bottom: 30px;
 }
-
+.input__light-green {
+  background: var(--light-green);
+}
 .add-costs__note input {
   width: 50%;
   padding: 5px;
