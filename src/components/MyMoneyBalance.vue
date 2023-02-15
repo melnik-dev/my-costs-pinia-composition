@@ -33,16 +33,8 @@ const payItemList = computed(() => store.costsList.filter(item => {
 const costsItemList = computed(() => store.costsList.filter(item => {
   return item.isPayLis === false
 }))
-function listBalance(is){
-  let sum = 0
-  store.costsList.forEach( elem => {
-    if (elem.isPayLis === is) {
-      sum += elem.list.reduce((sum, current) => +sum + +current.amount, 0)
-    }
-  })
-  return sum
-}
-const balance = computed(() => listBalance(true) - listBalance(false))
+
+const balance = computed(() => store.listBalance(true) - store.listBalance(false))
 const isOpenList = ref(false)
 
 function openList() {

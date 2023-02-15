@@ -3,7 +3,7 @@
     <li v-for="(item, i) in props.list" :key="i" class="balance__list-category">
       <div v-if="item.list.length > 0" class="balance__list-item-wrapper">
         <div @click="openCat(item)" class="balance__list-cat-title">
-          <span>{{ item.name }}</span><span>{{ listCount(item) }}</span>
+          <span>{{ item.name }}</span><span>{{ oneListCount(item) }}</span>
         </div>
 
         <ul v-if="item.isOpen" class="balance__list-category-ul">
@@ -34,7 +34,7 @@ function openCat(cat) {
   return cat.isOpen = !cat.isOpen
 }
 
-function listCount(item) {
+function oneListCount(item) {
   return item.list.reduce((sum, current) => +sum + +current.amount, 0)
 }
 

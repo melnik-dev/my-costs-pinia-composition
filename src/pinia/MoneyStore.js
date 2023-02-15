@@ -30,29 +30,30 @@ export const useMoneyStore = defineStore('moneyStore', () => {
     ])
 
     const costsList = reactive([
-        {name: 'Pay', isPayLis: true, isOpen: false, list: [
+        {name: 'Pay', isPayLis: true, isOpen: false, icon: 'fa-credit-card', color: '#22c55e', list: [
                 {id: '0', text: '1', amount: '1100', date: '8.02.2020'},
-                {id: '1', text: '1', amount: '100', date: '8.02.2020'}]},
-        {name: 'Deposit', isPayLis: true, isOpen: false, list: [
+                {id: '1', text: '1', amount: '100', date: '8.02.2020'}], procent: 0},
+        {name: 'Deposit', isPayLis: true, isOpen: false, icon: 'fa-money-bill-transfer', color: '#22c55e', list: [
                 {id: '0', text: '1', amount: '100', date: '8.02.2020'},
-                {id: '1', text: '1', amount: '100', date: '8.02.2020'}]},
-        {name: 'Economy', isPayLis: true, isOpen: false, list: []},
-        {name: 'House', isPayLis: false, isOpen: false, list: []},
-        {name: 'Clothes', isPayLis: false, isOpen: false, list: []},
-        {name: 'Entertainment', isPayLis: false, isOpen: false, list: []},
-        {name: 'Shop', isPayLis: false, isOpen: false, list: []},
-        {name: 'Gifts', isPayLis: false, isOpen: false, list: [
+                {id: '1', text: '1', amount: '100', date: '8.02.2020'}], procent: 0},
+        {name: 'Economy', isPayLis: true, isOpen: false, icon: 'fa-sack-dollar', color: '#22c55e', list: [], procent: 0},
+
+        {name: 'House', isPayLis: false, isOpen: false, icon: 'fa-house', color: '#f87171', list: [], procent: 0},
+        {name: 'Clothes', isPayLis: false, isOpen: false, icon: 'fa-shirt', color: '#fb923c', list: [], procent: 0},
+        {name: 'Entertainment', isPayLis: false, isOpen: false, icon: 'fa-martini-glass-citrus', color: '#facc15', list: [], procent: 0},
+        {name: 'Shop', isPayLis: false, isOpen: false, icon: 'fa-basket-shopping', color: '#a3e635', list: [], procent: 0},
+        {name: 'Gifts', isPayLis: false, isOpen: false, icon: 'fa-gift', color: '#818cf8', list: [
                 {id: '0', text: '1', amount: '100', date: '8.02.2020'},
-                {id: '1', text: '1', amount: '100', date: '8.02.2020'}]},
-        {name: 'Health', isPayLis: false, isOpen: false, list: []},
-        {name: 'Peet', isPayLis: false, isOpen: false, list: [
+                {id: '1', text: '1', amount: '100', date: '8.02.2020'}], procent: 0},
+        {name: 'Health', isPayLis: false, isOpen: false, icon: 'fa-stethoscope', color: '#22d3ee', list: [], procent: 0},
+        {name: 'Peet', isPayLis: false, isOpen: false, icon: 'fa-cat', color: '#38bdf8', list: [
                 {id: '0', text: '1', amount: '100', date: '8.02.2020'},
-                {id: '1', text: '1', amount: '100', date: '8.02.2020'}]},
-        {name: 'Car', isPayLis: false, isOpen: false, list: []},
-        {name: 'Transport', isPayLis: false, isOpen: false, list: []},
-        {name: 'Toiletry', isPayLis: false, isOpen: false, list: []},
-        {name: 'Sport', isPayLis: false, isOpen: false, list: []},
-        {name: 'Invoice', isPayLis: false, isOpen: false, list: []}
+                {id: '1', text: '1', amount: '100', date: '8.02.2020'}], procent: 0},
+        {name: 'Car', isPayLis: false, isOpen: false, icon: 'fa-car-side', color: '#34d399', list: [], procent: 0},
+        {name: 'Transport', isPayLis: false, isOpen: false, icon: 'fa-train-subway', color: '#e11d48', list: [], procent: 0},
+        {name: 'Toiletry', isPayLis: false, isOpen: false, icon: 'fa-bath', color: '#f472b6', list: [], procent: 0},
+        {name: 'Sport', isPayLis: false, isOpen: false, icon: 'fa-dumbbell', color: '#60a5fa', list: [{id: '0', text: '1', amount: '50', date: '8.02.2020'}], procent: 0},
+        {name: 'Invoice', isPayLis: false, isOpen: false, icon: 'fa-file-invoice-dollar', color: '#f59e0b', list: [], procent: 0}
     ])
     const note = ref('')
     const amount = ref('')
@@ -90,6 +91,25 @@ export const useMoneyStore = defineStore('moneyStore', () => {
         }
     }
 
+    function listBalance(is){
+        let sum = 0
+        costsList.forEach( elem => {
+            if (elem.isPayLis === is) {
+                sum += elem.list.reduce((sum, current) => +sum + +current.amount, 0)
+            }
+        })
+        return sum
+    }
+    function setProcent() {
+        let allCostsBalans = listBalance(false)
+        costsList.forEach(elem => {
+            if (!elem.isPayLis) {
+                let sum = elem.list.reduce((sum, current) => +sum + +current.amount, 0)
+                elem.procent = (100 * sum / allCostsBalans).toFixed(2)
+            }
+        })
+    }
+
     return {
         month,
         weekDay,
@@ -101,6 +121,8 @@ export const useMoneyStore = defineStore('moneyStore', () => {
         costsName,
         addNewCoast,
         deleteCosts,
-        cleare
+        cleare,
+        listBalance,
+        setProcent
     }
 })
