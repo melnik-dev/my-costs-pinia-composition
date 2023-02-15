@@ -12,7 +12,7 @@
         </button>
       </div>
 
-      <div class="balance__list-wrapper">
+      <div :class="['balance__list-wrapper', {'overflov__list' : isOpenList}]">
         <MyMoneyBalanceList @deleteCosts="deleteCosts" :list="store.payItemList"/>
         <MyMoneyBalanceList @deleteCosts="deleteCosts" :list="store.costsItemList"/>
       </div>
@@ -26,13 +26,6 @@ import {useMoneyStore} from "@/pinia/MoneyStore";
 import {ref, computed} from "vue";
 
 const store = useMoneyStore()
-//
-// const payItemList = computed(() => store.costsList.filter(item => {
-//   return item.isPayLis === true
-// }))
-// const costsItemList = computed(() => store.costsList.filter(item => {
-//   return item.isPayLis === false
-// }))
 
 const balance = computed(() => store.listBalance(true) - store.listBalance(false))
 const isOpenList = ref(false)
@@ -90,8 +83,11 @@ function deleteCosts(id, name) {
   background: var(--light-red);
 }
 .balance__list-wrapper {
-  overflow: auto;
+
   max-height: 390px;
   padding: 10px 80px;
+}
+.overflov__list {
+  overflow: auto;
 }
 </style>
