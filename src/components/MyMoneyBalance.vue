@@ -90,6 +90,8 @@ function deleteCosts(id, name) {
   background: var(--light-red);
 }
 .balance__list-wrapper {
+  overflow: auto;
+  max-height: 390px;
   padding: 10px 80px;
 }
 </style>

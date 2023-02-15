@@ -19,7 +19,7 @@
 
 <script setup>
 import {useMoneyStore} from "@/pinia/MoneyStore";
-import {computed, defineEmits, watch} from "vue";
+import {computed, defineEmits} from "vue";
 
 const store = useMoneyStore()
 
@@ -48,11 +48,6 @@ function createGradient() {
 }
 
 const gradient = computed(() => createGradient())
-
-store.setProcent()
-watch(store.costsList, () => {
-  store.setProcent()
-})
 </script>
 
 <style scoped>
