@@ -43,9 +43,11 @@ const emit = defineEmits({
   cancelNewCostsList: null,
 })
 const store = useMoneyStore()
+
 const buttonArr = ref(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'])
 const isNumberBtn = ref(true)
 const isCostaBtn = ref(false)
+
 function cancelNewCostsList() {
   emit('cancelNewCostsList')
   isNumberBtn.value = true
@@ -62,7 +64,7 @@ function addAmount(n) {
 }
 
 const activeComponent = computed(() => {
-  return props.isPlus ? store.payCategory : store.costsCategory
+  return props.isPlus ? store.payItemList : store.costsItemList
 })
 
 function chooseCategory() {

@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <div v-for="(cat,i) in store.costsCategory" :key="i">
+    <div v-for="(cat,i) in store.costsItemList" :key="i">
       <button @click="openNewCostsList(cat.name)">
         <font-awesome-icon
             :style="{ color: cat.color }"
@@ -11,7 +11,7 @@
     <div class="diagram" :style="{ background: gradient }">
       <div class="diagram__circle">
         <span class="diagram__circle--plus">{{store.listBalance(true)}}</span>
-        <span class="diagram__circle--minus">-{{store.listBalance(false)}}</span>
+        <span class="diagram__circle--minus">{{ 0 - store.listBalance(false)}}</span>
       </div>
     </div>
   </div>
@@ -87,9 +87,9 @@ watch(store.costsList, () => {
   font-weight: 600;
 }
 .diagram__circle--plus {
-  color: var(--btn-red);
+  color: var(--btn-green);
 }
 .diagram__circle--minus {
-  color: var(--btn-green);
+  color: var(--btn-red);
 }
 </style>

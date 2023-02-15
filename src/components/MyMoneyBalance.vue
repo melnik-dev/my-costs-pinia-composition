@@ -13,8 +13,8 @@
       </div>
 
       <div class="balance__list-wrapper">
-        <MyMoneyBalanceList @deleteCosts="deleteCosts" :list="payItemList"/>
-        <MyMoneyBalanceList @deleteCosts="deleteCosts" :list="costsItemList"/>
+        <MyMoneyBalanceList @deleteCosts="deleteCosts" :list="store.payItemList"/>
+        <MyMoneyBalanceList @deleteCosts="deleteCosts" :list="store.costsItemList"/>
       </div>
     </div>
   </div>
@@ -26,13 +26,13 @@ import {useMoneyStore} from "@/pinia/MoneyStore";
 import {ref, computed} from "vue";
 
 const store = useMoneyStore()
-
-const payItemList = computed(() => store.costsList.filter(item => {
-  return item.isPayLis === true
-}))
-const costsItemList = computed(() => store.costsList.filter(item => {
-  return item.isPayLis === false
-}))
+//
+// const payItemList = computed(() => store.costsList.filter(item => {
+//   return item.isPayLis === true
+// }))
+// const costsItemList = computed(() => store.costsList.filter(item => {
+//   return item.isPayLis === false
+// }))
 
 const balance = computed(() => store.listBalance(true) - store.listBalance(false))
 const isOpenList = ref(false)

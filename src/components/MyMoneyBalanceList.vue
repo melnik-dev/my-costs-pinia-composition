@@ -3,11 +3,14 @@
     <li v-for="(item, i) in props.list" :key="i" class="balance__list-category">
       <div v-if="item.list.length > 0" class="balance__list-item-wrapper">
         <div @click="openCat(item)" class="balance__list-cat-title">
-          <span>{{ item.name }}</span><span>{{ oneListCount(item) }}</span>
+          <span>{{ item.name }}</span><span>{{ store.oneListCount(item) }}</span>
         </div>
 
         <ul v-if="item.isOpen" class="balance__list-category-ul">
-          <li v-for="(childItem, i) in item.list" :key="i" class="balance__list-item">
+          <li
+              v-for="(childItem, i) in item.list"
+              :key="i" class="balance__list-item"
+              :class="{ 'text__red' : !item.isPayLis }">
             <span>{{ childItem.amount }}</span>
             <span v-if="childItem.text">{{ childItem.text }}</span>
             <span>{{ childItem.date }}</span>
@@ -22,20 +25,18 @@
 </template>
 
 <script setup>
+import {useMoneyStore} from "@/pinia/MoneyStore";
 import {defineProps, defineEmits} from "vue";
 const props = defineProps({
-  list: Array
+  list: [Array, Object]
 })
 const emit = defineEmits({
   deleteCosts: null
 })
 
+const store = useMoneyStore()
 function openCat(cat) {
   return cat.isOpen = !cat.isOpen
-}
-
-function oneListCount(item) {
-  return item.list.reduce((sum, current) => +sum + +current.amount, 0)
 }
 
 function deleteCosts(id, name) {
@@ -67,5 +68,9 @@ function deleteCosts(id, name) {
   justify-content: space-between;
   padding: 5px;
   font-size: 16px;
+  color: var(--btn-green);
+}
+.text__red {
+  color: var(--btn-red)
 }
 </style>
